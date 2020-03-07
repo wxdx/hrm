@@ -1,1 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:mysql://123.56.216.164:3306/hrm?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.126.com
+    username: wxdonger@126.com
+    password: qwert12345
+    port: 25
+    protocol: smtp
+    default-encoding: utf-8
+  redis:
+    host: 123.56.216.164
+    port: 7007
+    password: 1qaz!QAZ
+    database: 0
+
+mybatis:
+  type-aliases-package: me.wangxiaodong.hrm.module.*.dao
 

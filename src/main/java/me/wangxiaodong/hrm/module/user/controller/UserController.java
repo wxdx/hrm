@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -26,15 +28,19 @@ public class UserController {
 
     @ApiOperation(value = "新建用户",notes = "新建用户",httpMethod = "POST",response = RespEntity.class)
     @PostMapping(value = "/user")
-    public RespEntity registerUser(@RequestBody(required = true) User user,@RequestHeader String emailCode) {
-        //1.读取存在redis中的emailCode是否正确。
+    public RespEntity registerUser(@RequestBody(required = true) User user,@RequestParam String emailCode) {
+        //读取存在redis中的emailCode是否正确。
         String redisString = (String) redisTemplate.opsForValue().get(user.getEmail());
         if (emailCode.equals(redisString)){
-
+            user.setId(UUID.randomUUID().toString());
+            user.setUserId(UUID.randomUUID().toString());
+            user.setRegisterTime(new Date());
+            user.setStatus("1");
+            userService.save(user);
+        } else {
+            return RespEntity.fail(user.getLoginName());
         }
-
-
-        return RespEntity.success(user);
+        return RespEntity.success(user.getLoginName());
     }
 
 
@@ -53,7 +59,7 @@ public class UserController {
     @GetMapping(value = "/user/emailCode")
     public RespEntity emailCode(@RequestParam String email) {
         int randomNumber = (int)((Math.random()*9+1)*1000);
-        redisTemplate.opsForValue().set(email,String.valueOf(randomNumber), 1,TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(email,String.valueOf(randomNumber), 5,TimeUnit.MINUTES);
         iMailService.sendSimpleMail(email,"人力资源系统注册验证邮件","验证码：" + randomNumber);
         return RespEntity.success(email);
     }

@@ -6,4 +6,7 @@ public interface UserService {
 
     //根据登录用户名查询用户信息
     User findByLoginName(String loginName);
+
+    //保存新用户
+    void save(User user);
 }

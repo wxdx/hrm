@@ -30,7 +30,7 @@ public class UserController {
         //1.读取存在redis中的emailCode是否正确。
         String redisString = (String) redisTemplate.opsForValue().get(user.getEmail());
         if (emailCode.equals(redisString)){
-            
+
         }
 
 
@@ -54,7 +54,7 @@ public class UserController {
     public RespEntity emailCode(@RequestParam String email) {
         int randomNumber = (int)((Math.random()*9+1)*1000);
         redisTemplate.opsForValue().set(email,String.valueOf(randomNumber), 1,TimeUnit.MINUTES);
-        iMailService.sendSimpleMail("lle@live.com","人力资源系统测试邮件","验证码：" + randomNumber);
+        iMailService.sendSimpleMail(email,"人力资源系统注册验证邮件","验证码：" + randomNumber);
         return RespEntity.success(email);
     }
 

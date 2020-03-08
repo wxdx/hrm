@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/api")
 @Api(description = "用户相关接口")
 public class UserController {
 
@@ -62,6 +61,18 @@ public class UserController {
         redisTemplate.opsForValue().set(email,String.valueOf(randomNumber), 5,TimeUnit.MINUTES);
         iMailService.sendSimpleMail(email,"人力资源系统注册验证邮件","验证码：" + randomNumber);
         return RespEntity.success(email);
+    }
+
+    @ApiOperation(value = "检查emailCode",notes = "检查emailCode",httpMethod = "GET",response = RespEntity.class)
+    @GetMapping(value = "/user/checkEmailCode")
+    public RespEntity checkEmailCode(@RequestParam String email,@RequestParam String emailCode) {
+        //读取存在redis中的emailCode是否正确。
+        String redisString = (String) redisTemplate.opsForValue().get(email);
+        if (emailCode.equals(redisString)){
+            return RespEntity.success(email);
+        } else {
+            return RespEntity.fail(email);
+        }
     }
 
     @ApiOperation(value = "删除用户",notes = "删除用户",httpMethod = "DELETE",response = RespEntity.class)

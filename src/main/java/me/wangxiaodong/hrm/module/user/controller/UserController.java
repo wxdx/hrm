@@ -27,17 +27,15 @@ public class UserController {
 
     @ApiOperation(value = "新建用户",notes = "新建用户",httpMethod = "POST",response = RespEntity.class)
     @PostMapping(value = "/user")
-    public RespEntity registerUser(@RequestBody(required = true) User user,@RequestParam String emailCode) {
-        //读取存在redis中的emailCode是否正确。
-        String redisString = (String) redisTemplate.opsForValue().get(user.getEmail());
-        if (emailCode.equals(redisString)){
-            user.setId(UUID.randomUUID().toString());
-            user.setUserId(UUID.randomUUID().toString());
+    public RespEntity registerUser(@RequestBody(required = true) User user) {
+        if (null != user){
+            user.setId(UUID.randomUUID().toString().replace("-",""));
+            user.setUserId(UUID.randomUUID().toString().replace("-",""));
             user.setRegisterTime(new Date());
             user.setStatus("1");
             userService.save(user);
         } else {
-            return RespEntity.fail(user.getLoginName());
+            return RespEntity.fail(null);
         }
         return RespEntity.success(user.getLoginName());
     }

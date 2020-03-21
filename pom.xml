@@ -66,6 +66,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
 
         <dependency>
             <groupId>commons-io</groupId>

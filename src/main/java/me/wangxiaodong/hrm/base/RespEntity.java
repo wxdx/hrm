@@ -32,6 +32,11 @@ public class RespEntity {
         respEntity.setData(data);
         return respEntity;
     }
+    public static RespEntity unAuthorized(Object data){
+        RespEntity respEntity = new RespEntity(RespCode.UNAUTHORIZED);
+        respEntity.setData(data);
+        return respEntity;
+    }
 
     public int getCode() {
         return code;

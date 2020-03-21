@@ -9,4 +9,8 @@ public interface UserService {
 
     //保存新用户
     void save(User user);
+
+    int checkUser(String username);
+
+    int checkPassword(String username, String password);
 }

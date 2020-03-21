@@ -21,4 +21,14 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         userDao.save(user);
     }
+
+    @Override
+    public int checkUser(String username) {
+        return userDao.checkUser(username);
+    }
+
+    @Override
+    public int checkPassword(String username, String password) {
+        return userDao.checkPassword(username,password);
+    }
 }

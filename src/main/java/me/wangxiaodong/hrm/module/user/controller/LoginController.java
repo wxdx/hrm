@@ -51,6 +51,12 @@ public class LoginController {
         }
     }
 
+    @ApiOperation(value = "检查token是否失效",notes = "检查token是否失效",httpMethod = "GET",response = RespEntity.class)
+    @GetMapping(value = "/checkToken")
+    public RespEntity checkToken(@RequestHeader String token) {
+        return RespEntity.success(JwtUtil.checkExpireToken(token));
+    }
+
     @ApiOperation(value = "注册用户",notes = "注册用户",httpMethod = "POST",response = RespEntity.class)
     @PostMapping(value = "/register",produces = {"application/json"})
     public RespEntity registerUser(@RequestBody(required = true) User user) {

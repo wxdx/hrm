@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +60,7 @@ public class LoginController {
 
     @ApiOperation(value = "注册用户",notes = "注册用户",httpMethod = "POST",response = RespEntity.class)
     @PostMapping(value = "/register",produces = {"application/json"})
-    public RespEntity registerUser(@RequestBody(required = true) User user) {
+    public RespEntity registerUser(@RequestBody @Valid User user) {
         if (null != user){
             user.setId(UUID.randomUUID().toString().replace("-",""));
             user.setUserId(UUID.randomUUID().toString().replace("-",""));
@@ -73,9 +74,9 @@ public class LoginController {
     }
 
 
-    @ApiOperation(value = "判断用户是否存在",notes = "判断用户是否存在",httpMethod = "GET",response = RespEntity.class)
-    @GetMapping(value = "/register/exist")
-    public RespEntity userExist(@RequestParam String loginName) {
+    @ApiOperation(value = "判断用户名是否存在",notes = "判断用户名是否存在",httpMethod = "GET",response = RespEntity.class)
+    @GetMapping(value = "/register/exist/{loginName}")
+    public RespEntity userExist(@PathVariable String loginName) {
         //判断用户是否存在
         User userFlag = userService.findByLoginName(loginName);
         if (userFlag != null){

@@ -16,12 +16,9 @@ import java.util.Date;
 @Table(name = "hrm_user")
 public class User {
     //主键ID
-    @ApiModelProperty(value = "主键ID")
-    @Id
-    private String id;
-    //用户ID
     @ApiModelProperty(value = "用户ID")
-    private String userId;
+    @Id
+    private Long id;
     //用户登录名
     @ApiModelProperty(value = "用户登录名")
     @NotNull(message = "登陆用户名不能为空")

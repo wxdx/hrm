@@ -4,6 +4,10 @@ spring:
     username: root
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
   mail:
     host: smtp.126.com
     username: wxdonger@126.com
@@ -15,10 +19,7 @@ spring:
     host: 127.0.0.1
     port: 6379
     database: 0
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
+
 
 
 

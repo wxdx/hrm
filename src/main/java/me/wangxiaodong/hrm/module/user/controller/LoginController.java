@@ -7,6 +7,7 @@ import me.wangxiaodong.hrm.module.email.service.IMailService;
 import me.wangxiaodong.hrm.module.user.entity.User;
 import me.wangxiaodong.hrm.module.user.service.UserService;
 import me.wangxiaodong.hrm.utils.JwtUtil;
+import me.wangxiaodong.hrm.utils.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class LoginController {
         if (i > 0){
             int j = userService.checkPassword(user.getLoginName(),user.getPassword());
             if (j > 0) {
-                String token = JwtUtil.sign(user.getLoginName(), user.getUserId());
+                String token = JwtUtil.sign(user.getLoginName(), user.getId());
                 return RespEntity.success(token);
             } else {
                 RespEntity fail = RespEntity.fail(user.getLoginName());
@@ -62,8 +63,8 @@ public class LoginController {
     @PostMapping(value = "/register",produces = {"application/json"})
     public RespEntity registerUser(@RequestBody @Valid User user) {
         if (null != user){
-            user.setId(UUID.randomUUID().toString().replace("-",""));
-            user.setUserId(UUID.randomUUID().toString().replace("-",""));
+            SnowFlake snowFlake = new SnowFlake(0,0);
+            user.setId(snowFlake.nextId());
             user.setRegisterTime(new Date());
             user.setStatus("1");
             userService.save(user);

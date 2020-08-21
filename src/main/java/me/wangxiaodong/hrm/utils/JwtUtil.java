@@ -25,7 +25,7 @@ public class JwtUtil {
     /**
      * token私钥
      */
-    private static final String TOKEN_SECRET = "wangxiaodongshrm";
+    private static final String TOKEN_SECRET = "wangxiaodonghrm";
 
     /**
      * 生成签名,15分钟后过期
@@ -33,10 +33,10 @@ public class JwtUtil {
      * @param userId
      * @return
      */
-    public static String sign(String username,String userId){
+    public static String sign(String username,Long userId){
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
-        JwtBuilder builder = Jwts.builder().setId(userId)
+        JwtBuilder builder = Jwts.builder().setId(String.valueOf(userId))
                 .setSubject(username)
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET);
@@ -74,7 +74,7 @@ public class JwtUtil {
 
 
     public static void main(String[] args) {
-        String token = sign("wangxiaodong","12232432");
+        String token = sign("wangxiaodong",123456778L);
         Claims claims = parseJWT(token);
         String username = claims.getSubject();
         String userId = claims.getId();

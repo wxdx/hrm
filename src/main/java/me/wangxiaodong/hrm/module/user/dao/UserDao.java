@@ -1,23 +1,18 @@
 package me.wangxiaodong.hrm.module.user.dao;
 
 import me.wangxiaodong.hrm.module.user.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-@Mapper
-public interface UserDao {
+public interface UserDao extends JpaRepository<User,String> {
 
-    @Select("select * from hrm_user where loginName = #{0}")
-    User findByLoginName(String loginName);
+    @Query(value = "select * from hrm_user where login_name = ?1",nativeQuery = true)
+    User findByLoginName(@Param("loginName") String loginName);
 
-    @Insert("insert into hrm_user(id,userId,loginName,nickName,password,email,registerTime,status) values (#{id},#{userId},#{loginName},#{nickName},#{password},#{email},#{registerTime},#{status})")
-    void save(User user);
+    @Query(value = "select count(*) from hrm_user where login_name = ?1",nativeQuery = true)
+    int checkUser(@Param("username") String username);
 
-    @Select("select count(*) from hrm_user where loginName = #{0}")
-    int checkUser(String username);
-
-    @Select("select count(*) from hrm_user where loginName = #{username} and password = #{password}")
+    @Query(value = "select count(*) from hrm_user where login_name = ?1 and password = ?2",nativeQuery = true)
     int checkPassword(@Param("username") String username, @Param("password") String password);
 }

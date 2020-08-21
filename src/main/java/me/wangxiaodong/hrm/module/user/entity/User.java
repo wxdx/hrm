@@ -2,20 +2,22 @@ package me.wangxiaodong.hrm.module.user.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 @ApiModel(value = "用户实体")
-@Setter
-@Getter
+@Data
+@Entity
+@Table(name = "hrm_user")
 public class User {
     //主键ID
     @ApiModelProperty(value = "主键ID")
+    @Id
     private String id;
     //用户ID
     @ApiModelProperty(value = "用户ID")

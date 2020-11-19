@@ -1,5 +1,6 @@
 package me.wangxiaodong.hrm.module.user.controller;
 
+import cn.hutool.core.util.IdUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.wangxiaodong.hrm.base.RespEntity;
@@ -7,14 +8,12 @@ import me.wangxiaodong.hrm.module.email.service.IMailService;
 import me.wangxiaodong.hrm.module.user.entity.User;
 import me.wangxiaodong.hrm.module.user.service.UserService;
 import me.wangxiaodong.hrm.utils.JwtUtil;
-import me.wangxiaodong.hrm.utils.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -63,8 +62,7 @@ public class LoginController {
     @PostMapping(value = "/register",produces = {"application/json"})
     public RespEntity registerUser(@RequestBody @Valid User user) {
         if (null != user){
-            SnowFlake snowFlake = new SnowFlake(0,0);
-            user.setId(snowFlake.nextId());
+            user.setId(IdUtil.createSnowflake(0,0).nextId());
             user.setRegisterTime(new Date());
             user.setStatus("1");
             userService.save(user);

@@ -1,5 +1,6 @@
 package me.wangxiaodong.hrm.filter;
 
+import cn.hutool.crypto.SecureUtil;
 import me.wangxiaodong.hrm.utils.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -10,8 +10,8 @@ spring:
     show-sql: true
   mail:
     host: smtp.126.com
-    username: wxdonger@126.com
-    password: qwert12345
+    username: hrmemailvaild@126.com
+    password: qwer1234
     port: 25
     protocol: smtp
     default-encoding: utf-8
